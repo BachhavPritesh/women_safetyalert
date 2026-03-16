@@ -122,6 +122,22 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'SafeAlert API is running' });
 });
 
+// Test email endpoint (for debugging)
+app.post('/api/test-email', async (req, res) => {
+  const { sendSOSEmail } = require('./services/emailService');
+  const testUser = {
+    name: 'Test User',
+    email: 'test@test.com'
+  };
+  const testLocation = {
+    latitude: 28.6139,
+    longitude: 77.209
+  };
+  
+  const result = await sendSOSEmail(testUser, testLocation);
+  res.json(result);
+});
+
 // Start server
 const PORT = process.env.PORT || 5000;
 
