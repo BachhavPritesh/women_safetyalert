@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const { protect } = require('../middleware/auth');
 
 const generateToken = (user) => {
   return jwt.sign({ 
@@ -129,7 +130,7 @@ router.get(
  * @desc    Get current user
  * @access  Private
  */
-router.get('/me', async (req, res) => {
+router.get('/me', protect, async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     res.json({
